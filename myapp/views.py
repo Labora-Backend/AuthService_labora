@@ -14,6 +14,8 @@ User = get_user_model()
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):
+    print("...................")
+    print(request.data)
     username = request.data.get("username")
     password = request.data.get("password")
     email = request.data.get("email")
@@ -39,15 +41,18 @@ def register_view(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
+    print(request.data)
     username = request.data.get("username")
     password = request.data.get("password")
 
     user = authenticate(username=username, password=password)
+    print(user)
 
     if not user:
         return Response({"error": "Invalid credentials"})
 
     refresh = RefreshToken.for_user(user)
+    print(user.role)
 
     return Response({
         "message": "Login successful",
