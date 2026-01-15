@@ -7,7 +7,7 @@ from .serializers import UserSerializer
 import random
 from django.core.mail import send_mail
 from .models import PasswordResetOTP
-
+from .authentication import (generate_jwt)
 User = get_user_model()
 
 
@@ -27,12 +27,7 @@ def register_view(request):
     if User.objects.filter(username=username).exists():
         return Response({"error": "Username already exists"})
 
-    User.objects.create_user(
-        username=username,
-        password=password,
-        email=email,
-        role=role
-    )
+    User.objects.create_user(username=username,password=password,email=email,role=role)
 
     return Response({"message": "User registered successfully"})
 
@@ -51,15 +46,12 @@ def login_view(request):
     if not user:
         return Response({"error": "Invalid credentials"})
 
-    refresh = RefreshToken.for_user(user)
-    print(user.role)
+    token = generate_jwt(user)
 
     return Response({
-        "message": "Login successful",
-        "access": str(refresh.access_token),
-        "refresh": str(refresh),
-        "user_id": user.id,
-        "role": user.role
+        "token": token,
+        "role": user.role,
+        "username": user.username,
     })
 
 
@@ -134,3 +126,5 @@ def logout_view(request):
         return Response("Logout Successfully......")
     except Exception:
         return Response("Invalid Token")
+
+

@@ -1,9 +1,10 @@
+import os
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+JWT_SECRET = os.getenv("JWT_SECRET", "your-super-secret")
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 ALLOWED_HOSTS = ["*"]
