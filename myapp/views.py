@@ -31,8 +31,11 @@ def register_view(request):
         email=email,
         role=role
     )
+    print(username,password,email,role)
 
     return Response({"message": "User registered successfully"})
+
+
 
 
 
@@ -129,3 +132,5 @@ def logout_view(request):
         return Response("Logout Successfully......")
     except Exception:
         return Response("Invalid Token")
+
+

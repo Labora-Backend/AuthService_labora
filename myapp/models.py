@@ -8,6 +8,7 @@ class User(AbstractUser):
         ('freelancer', 'Freelancer'),
         ('admin', 'Admin'),
     )
+    email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     bio = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='profiles/', blank=True, null=True)
