@@ -7,13 +7,15 @@ from .serializers import UserSerializer
 import random
 from django.core.mail import send_mail
 from .models import PasswordResetOTP
-
+from .authentication import (generate_jwt)
 User = get_user_model()
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):
+    print("...................")
+    print(request.data)
     username = request.data.get("username")
     password = request.data.get("password")
     email = request.data.get("email")
@@ -24,6 +26,7 @@ def register_view(request):
 
     if User.objects.filter(username=username).exists():
         return Response({"error": "Username already exists"})
+
 
     User.objects.create_user(
         username=username,
@@ -42,22 +45,22 @@ def register_view(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_view(request):
+    print(request.data)
     username = request.data.get("username")
     password = request.data.get("password")
 
     user = authenticate(username=username, password=password)
+    print(user)
 
     if not user:
         return Response({"error": "Invalid credentials"})
 
-    refresh = RefreshToken.for_user(user)
+    token = generate_jwt(user)
 
     return Response({
-        "message": "Login successful",
-        "access": str(refresh.access_token),
-        "refresh": str(refresh),
-        "user_id": user.id,
-        "role": user.role
+        "token": token,
+        "role": user.role,
+        "username": user.username,
     })
 
 
