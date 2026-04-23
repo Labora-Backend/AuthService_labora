@@ -181,7 +181,7 @@ SIMPLE_JWT = {
 
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-<<<<<<< HEAD
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
@@ -194,11 +194,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'azph87453@gmail.com'
 EMAIL_HOST_PASSWORD = 'xmotbojyzqbttomm'
 DEFAULT_FROM_EMAIL = 'Labora <azph87453@gmail.com>'
-=======
+
 
 
 # ==============================
 # EMAIL (DEV)
 # ==============================
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
->>>>>>> 39b83a661fac86f7890b28cbcdcccc99585cf111
+
